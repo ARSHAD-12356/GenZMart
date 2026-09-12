@@ -159,6 +159,12 @@ export function SiteHeader() {
   const [unread, setUnread] = useState(0)
   const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   useEffect(() => {
     const updateUnread = () => {
       setUnread(notificationService.getAll().filter((n) => !n.read).length)
@@ -473,49 +479,53 @@ export function SiteHeader() {
             <Search className="size-4" />
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative hidden sm:inline-flex shrink-0"
-            aria-label="Notifications"
-            render={<Link href="/account/notifications" />}
-          >
-            <Bell className="size-4" />
-            <HeaderBadge count={unread} />
-          </Button>
+          {mounted && user && (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hidden sm:inline-flex shrink-0"
+                aria-label="Notifications"
+                render={<Link href="/account/notifications" />}
+              >
+                <Bell className="size-4" />
+                <HeaderBadge count={unread} />
+              </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative hidden sm:inline-flex shrink-0"
-            aria-label="Compare products"
-            render={<Link href="/compare" />}
-          >
-            <GitCompare className="size-4" />
-            <HeaderBadge count={compare.length} />
-          </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hidden sm:inline-flex shrink-0"
+                aria-label="Compare products"
+                render={<Link href="/compare" />}
+              >
+                <GitCompare className="size-4" />
+                <HeaderBadge count={compare.length} />
+              </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative shrink-0"
-            aria-label="Wishlist"
-            render={<Link href="/account/wishlist" />}
-          >
-            <Heart className="size-4" />
-            <HeaderBadge count={wishlist.length} />
-          </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative shrink-0"
+                aria-label="Wishlist"
+                render={<Link href="/account/wishlist" />}
+              >
+                <Heart className="size-4" />
+                <HeaderBadge count={wishlist.length} />
+              </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative shrink-0"
-            aria-label="Shopping Cart"
-            render={<Link href="/cart" />}
-          >
-            <ShoppingBag className="size-4" />
-            <HeaderBadge count={cartCount} />
-          </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative shrink-0"
+                aria-label="Shopping Cart"
+                render={<Link href="/cart" />}
+              >
+                <ShoppingBag className="size-4" />
+                <HeaderBadge count={cartCount} />
+              </Button>
+            </>
+          )}
 
           {/* Theme Mode Toggle Button */}
           <ThemeToggle />

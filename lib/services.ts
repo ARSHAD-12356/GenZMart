@@ -10,7 +10,7 @@
 } from './mock-data'
 import type { Product, Order, AppNotification } from './types'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost/GenZMart-API/api"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/backend";
 
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null
@@ -347,7 +347,7 @@ export const orderService = {
     return newOrder
   },
 
-    updateStatus: async (id: string, status: Order['orderStatus']): Promise<Order | undefined> => {
+  updateStatus: async (id: string, status: Order['orderStatus']): Promise<Order | undefined> => {
     const token = getAuthToken()
     if (token) {
       try {
@@ -483,7 +483,7 @@ export const authService = {
             "Authorization": `Bearer ${token}`
           },
         })
-      } catch {}
+      } catch { }
     }
     setAuthToken(null)
   }

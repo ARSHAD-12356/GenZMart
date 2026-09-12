@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -20,6 +22,15 @@ const nextConfig = {
       },
     ],
   },
-}
 
-export default nextConfig
+  async rewrites() {
+    return [
+      {
+        source: '/backend/:path*',
+        destination: 'https://genzemart.byethost24.com/api/:path*',
+      },
+    ];
+  },
+};
+
+export default nextConfig;
