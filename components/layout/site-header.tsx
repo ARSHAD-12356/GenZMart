@@ -12,6 +12,7 @@ import {
   GitCompare,
   User,
   LogIn,
+  LogOut,
   Menu,
   Bell,
   Sparkles,
@@ -154,7 +155,7 @@ function HeaderBadge({ count }: { count: number }) {
 
 export function SiteHeader() {
   const router = useRouter()
-  const { user, cartCount, wishlist, compare } = useStore()
+  const { user, logout, cartCount, wishlist, compare } = useStore()
   const [query, setQuery] = useState('')
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
   const [mobileExpandedSlug, setMobileExpandedSlug] = useState<string | null>(null)
@@ -266,25 +267,42 @@ export function SiteHeader() {
                       }
                     />
                   ) : (
-                    <div className="flex items-center justify-between gap-2 rounded-xl border border-border/60 bg-muted/40 p-3">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary font-bold text-sm">
-                          {user.name ? user.name[0].toUpperCase() : 'U'}
+                    <div className="flex flex-col gap-2 rounded-xl border border-border/60 bg-muted/40 p-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary font-bold text-sm">
+                            {user.name ? user.name[0].toUpperCase() : 'U'}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-xs font-bold capitalize text-foreground">{user.name}</p>
+                            <p className="truncate text-[10px] text-muted-foreground">{user.email}</p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="truncate text-xs font-bold capitalize text-foreground">{user.name}</p>
-                          <p className="truncate text-[10px] text-muted-foreground">{user.email}</p>
-                        </div>
+                        <SheetClose
+                          nativeButton={false}
+                          render={
+                            <Link
+                              href="/account"
+                              className="rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary hover:bg-primary/20 transition shrink-0"
+                            >
+                              Account
+                            </Link>
+                          }
+                        />
                       </div>
                       <SheetClose
                         nativeButton={false}
                         render={
-                          <Link
-                            href="/account"
-                            className="rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary hover:bg-primary/20 transition shrink-0"
+                          <button
+                            onClick={() => {
+                              logout()
+                              router.replace('/')
+                            }}
+                            className="flex items-center justify-center gap-1.5 w-full rounded-lg bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/20 transition"
                           >
-                            Account
-                          </Link>
+                            <LogOut className="size-3.5" />
+                            <span>Sign Out</span>
+                          </button>
                         }
                       />
                     </div>
@@ -627,7 +645,7 @@ export function SiteHeader() {
                 render={<Link href="/login" />}
               >
                 <LogIn className="size-3.5" />
-                <span className="font-semibold tracking-wide hidden xs:inline">Sign In</span>
+                <span className="font-semibold tracking-wide text-xs whitespace-nowrap">Sign In</span>
               </Button>
             ) : (
               <Button

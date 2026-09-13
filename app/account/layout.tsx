@@ -129,6 +129,13 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
               <span>{label}</span>
             </Link>
           ))}
+          <button
+            onClick={handleSignOut}
+            className="flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-destructive/30 bg-destructive/10 px-3.5 text-xs font-semibold text-destructive whitespace-nowrap transition-all shadow-xs hover:bg-destructive/20 active:scale-95"
+          >
+            <LogOut className="size-3.5 shrink-0" />
+            <span>Sign out</span>
+          </button>
         </div>
 
         {/* Main */}
