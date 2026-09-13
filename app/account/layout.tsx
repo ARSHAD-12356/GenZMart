@@ -62,7 +62,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col">
       <SiteHeader />
-      <div className="mx-auto flex w-full max-w-7xl flex-1 gap-0 px-4 py-8 lg:gap-8 lg:px-8">
+      <div className="mx-auto flex flex-col lg:flex-row w-full max-w-7xl flex-1 gap-0 px-4 py-6 lg:py-8 lg:gap-8 lg:px-8">
         {/* Sidebar */}
         <aside className="hidden w-64 shrink-0 lg:block">
           <div className="sticky top-24 flex flex-col gap-2">
@@ -113,26 +113,26 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
         </aside>
 
         {/* Mobile nav */}
-        <div className="mb-6 flex gap-2 overflow-x-auto pb-1 lg:hidden w-full">
+        <div className="mb-6 flex w-full items-center gap-2 overflow-x-auto shrink-0 py-1 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map(({ href, label, icon: Icon, exact }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition',
+                'flex h-9 shrink-0 items-center gap-1.5 rounded-xl border px-3.5 text-xs font-semibold whitespace-nowrap transition-all shadow-xs',
                 isActive(href, exact)
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border text-muted-foreground hover:border-primary/40',
+                  ? 'border-primary bg-primary/15 text-primary shadow-primary/10'
+                  : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground',
               )}
             >
-              <Icon className="size-3.5" />
-              {label}
+              <Icon className="size-3.5 shrink-0" />
+              <span>{label}</span>
             </Link>
           ))}
         </div>
 
         {/* Main */}
-        <main className="min-w-0 flex-1">{children}</main>
+        <main className="min-w-0 flex-1 w-full">{children}</main>
       </div>
       <SiteFooter />
     </div>

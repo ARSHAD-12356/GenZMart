@@ -94,22 +94,24 @@ export function ProductCard({ product, className }: { product: Product; classNam
             <StarRating rating={product.rating} />
             <span className="text-xs text-muted-foreground">{product.rating.toFixed(1)} ({product.reviewCount})</span>
           </div>
-          <div className="mt-auto flex items-end justify-between gap-2 pt-1">
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-display text-lg font-bold">{formatPrice(product.price)}</span>
+          <div className="mt-auto flex items-center justify-between gap-2 pt-2 border-t border-border/40">
+            <div className="flex flex-col">
+              <span className="font-display text-base sm:text-lg font-bold leading-none">{formatPrice(product.price)}</span>
               {product.discount > 0 && (
-                <span className="text-xs text-muted-foreground line-through">
+                <span className="text-[10px] sm:text-xs text-muted-foreground line-through mt-0.5">
                   {formatPrice(product.originalPrice)}
                 </span>
               )}
             </div>
             <Button
-              size="icon-sm"
+              size="sm"
               aria-label="Add to cart"
               disabled={out}
               onClick={() => addToCart(product)}
+              className="h-8 rounded-xl px-2.5 sm:px-3 text-xs font-semibold shrink-0 gap-1.5 shadow-xs transition-transform active:scale-95"
             >
-              <ShoppingCart />
+              <ShoppingCart className="size-3.5" />
+              <span className="hidden xs:inline">Add</span>
             </Button>
           </div>
         </div>

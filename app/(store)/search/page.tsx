@@ -14,11 +14,6 @@ export default async function SearchPage({
   const { q } = await searchParams
   return (
     <div className="flex flex-col">
-      <div className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-          <SearchBar initialQuery={q} />
-        </div>
-      </div>
       <ProductBrowser
         key={q}
         title={q ? `Results for “${q}”` : 'Search'}

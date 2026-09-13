@@ -75,22 +75,33 @@ const columns = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border bg-card/40">
-      <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+    <footer className="mt-16 border-t border-slate-800/80 bg-slate-950 text-slate-100 relative overflow-hidden">
+      {/* Background ambient brand glow */}
+      <div className="pointer-events-none absolute -bottom-24 -left-24 size-96 rounded-full bg-primary/10 blur-3xl" />
+      <div className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-accent/10 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-4 py-14 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(3,1fr)_1.4fr]">
           <div className="flex flex-col gap-4">
             <Link href="/" className="inline-flex items-center shrink-0 font-display text-xl font-extrabold tracking-tight group">
-              <span className="text-foreground transition-colors group-hover:text-primary">GenZ</span>
+              <span className="text-white transition-colors group-hover:text-primary">GenZ</span>
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                 Mart
               </span>
             </Link>
-            <p className="max-w-xs text-sm text-muted-foreground">
+            <p className="max-w-xs text-sm text-slate-400">
               The premium marketplace built for the always-on generation. Shop bold. Live loud.
             </p>
             <div className="flex gap-2">
               {socialLinks.map(({ Icon, href, label }) => (
-                <Button key={label} variant="outline" size="icon" className="rounded-full" aria-label={label} render={<a href={href} target="_blank" rel="noopener noreferrer" />}>
+                <Button
+                  key={label}
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full border-slate-800 bg-slate-900/60 text-slate-300 hover:bg-slate-800 hover:text-white"
+                  aria-label={label}
+                  render={<a href={href} target="_blank" rel="noopener noreferrer" />}
+                >
                   <Icon className="size-4" />
                 </Button>
               ))}
@@ -99,9 +110,9 @@ export function SiteFooter() {
 
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col gap-3">
-              <h3 className="font-display text-sm font-semibold">{col.title}</h3>
+              <h3 className="font-display text-sm font-semibold text-slate-200">{col.title}</h3>
               {col.links.map(([label, href]) => (
-                <Link key={label} href={href} className="text-sm text-muted-foreground hover:text-foreground">
+                <Link key={label} href={href} className="text-sm text-slate-400 hover:text-white transition-colors">
                   {label}
                 </Link>
               ))}
@@ -109,16 +120,16 @@ export function SiteFooter() {
           ))}
 
           <div className="flex flex-col gap-3">
-            <h3 className="font-display text-sm font-semibold">Stay in the loop</h3>
-            <p className="text-sm text-muted-foreground">Drops, deals and early access — straight to your inbox.</p>
+            <h3 className="font-display text-sm font-semibold text-slate-200">Stay in the loop</h3>
+            <p className="text-sm text-slate-400">Drops, deals and early access — straight to your inbox.</p>
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 toast('Subscribed', { description: "You're on the list." })
               }}
             >
-              <InputGroup>
-                <InputGroupInput type="email" required placeholder="you@email.com" />
+              <InputGroup className="bg-slate-900/80 border-slate-800">
+                <InputGroupInput type="email" required placeholder="you@email.com" className="text-slate-100 placeholder:text-slate-500" />
                 <InputGroupAddon align="inline-end">
                   <InputGroupButton type="submit" size="icon-xs" aria-label="Subscribe">
                     <Send />
@@ -129,30 +140,30 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <div className="my-8 h-px bg-slate-800/80" />
 
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs text-muted-foreground">Shop by category:</span>
+          <span className="text-xs text-slate-400 font-medium">Shop by category:</span>
           {cats.map((c) => (
-            <Link key={c.id} href={`/category/${c.slug}`} className="text-xs text-muted-foreground hover:text-primary">
+            <Link key={c.id} href={`/category/${c.slug}`} className="text-xs text-slate-400 hover:text-primary transition-colors">
               {c.name}
             </Link>
           ))}
         </div>
 
-        <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground sm:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-slate-400 sm:flex-row">
           <p className="flex flex-wrap items-center gap-1.5">
             <span>© {new Date().getFullYear()} GenZMart. All rights reserved.</span>
-            <span className="hidden sm:inline text-border">•</span>
+            <span className="hidden sm:inline text-slate-700">•</span>
             <span>Developed by</span>
             <span className="font-extrabold bg-gradient-to-r from-primary via-accent to-emerald-400 bg-clip-text text-transparent animate-gradient-flow">
               ArshXcoder
             </span>
           </p>
           <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
-            <Link href="/terms" className="hover:text-foreground">Terms</Link>
-            <Link href="/cookies" className="hover:text-foreground">Cookies</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
           </div>
         </div>
       </div>

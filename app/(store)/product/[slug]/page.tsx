@@ -311,38 +311,44 @@ function ProductMain({ product, reviews }: { product: Product; reviews: Review[]
         </div>
 
         {/* CTA buttons */}
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Button
-            size="lg"
-            className="flex-1"
-            disabled={product.stock === 0}
-            onClick={handleAddToCart}
-          >
-            <ShoppingCart data-icon="inline-start" />
-            Add to cart
-          </Button>
-          <Button
-            size="lg"
-            variant="secondary"
-            className="flex-1"
-            disabled={product.stock === 0}
-            onClick={handleBuyNow}
-          >
-            <Zap data-icon="inline-start" />
-            Buy now
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            aria-label="Wishlist"
-            onClick={() => toggleWishlist(product)}
-            className={cn(wished && 'text-accent border-accent/60 bg-accent/10')}
-          >
-            <Heart className={cn('size-5', wished && 'fill-current')} />
-          </Button>
-          <Button size="lg" variant="outline" aria-label="Share" onClick={handleShare}>
-            <Share2 className="size-5" />
-          </Button>
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-1">
+            <Button
+              size="lg"
+              className="w-full sm:flex-1 font-bold text-sm shadow-md"
+              disabled={product.stock === 0}
+              onClick={handleAddToCart}
+            >
+              <ShoppingCart className="size-4 mr-1.5" />
+              Add to cart
+            </Button>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="w-full sm:flex-1 font-bold text-sm"
+              disabled={product.stock === 0}
+              onClick={handleBuyNow}
+            >
+              <Zap className="size-4 mr-1.5" />
+              Buy now
+            </Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="lg"
+              variant="outline"
+              aria-label="Wishlist"
+              onClick={() => toggleWishlist(product)}
+              className={cn('flex-1 sm:flex-initial', wished && 'text-accent border-accent/60 bg-accent/10')}
+            >
+              <Heart className={cn('size-5', wished && 'fill-current')} />
+              <span className="sm:hidden text-xs font-semibold ml-1">Wishlist</span>
+            </Button>
+            <Button size="lg" variant="outline" aria-label="Share" onClick={handleShare} className="flex-1 sm:flex-initial">
+              <Share2 className="size-5" />
+              <span className="sm:hidden text-xs font-semibold ml-1">Share</span>
+            </Button>
+          </div>
         </div>
 
         {/* Trust badges */}

@@ -24,10 +24,11 @@ const nextConfig = {
   },
 
   async rewrites() {
+    const apiTarget = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost/GenZMart-API/api').replace(/\/+$/, '');
     return [
       {
         source: '/backend/:path*',
-        destination: 'https://genzemart.byethost24.com/api/:path*',
+        destination: `${apiTarget}/:path*`,
       },
     ];
   },

@@ -62,7 +62,7 @@ export default function AccountDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
         {[
           { label: 'Total orders', value: orders.length, icon: Package, href: '/account/orders' },
           { label: 'Wishlist', value: wishlist.length, icon: Heart, href: '/account/wishlist' },
@@ -72,10 +72,10 @@ export default function AccountDashboard() {
           <Link
             key={label}
             href={href}
-            className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-lg"
+            className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-3.5 sm:p-4 transition hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-lg"
           >
             <Icon className="size-5 text-primary" />
-            <p className="font-display text-2xl font-bold">{value}</p>
+            <p className="font-display text-xl sm:text-2xl font-bold">{value}</p>
             <p className="text-xs text-muted-foreground">{label}</p>
           </Link>
         ))}
@@ -83,8 +83,8 @@ export default function AccountDashboard() {
 
       {/* Recent orders */}
       <div className="rounded-2xl border border-border bg-card">
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="font-semibold flex items-center gap-2">
+        <div className="flex items-center justify-between border-b border-border px-4 sm:px-5 py-3.5 sm:py-4">
+          <h2 className="font-semibold text-sm sm:text-base flex items-center gap-2">
             <Clock className="size-4 text-primary" /> Recent orders
           </h2>
           <Button variant="ghost" size="xs" render={<Link href="/account/orders" />}>
@@ -105,10 +105,10 @@ export default function AccountDashboard() {
               const extraCount = (order.items?.length || 1) - 1
 
               return (
-                <div key={order.id} className="flex flex-wrap items-center gap-4 px-5 py-3.5 hover:bg-muted/20 transition-colors">
+                <div key={order.id} className="flex flex-wrap items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 hover:bg-muted/20 transition-colors">
                   {/* Image Thumbnail */}
                   {mainItem?.image ? (
-                    <div className="relative size-12 shrink-0 overflow-hidden rounded-xl border border-border bg-muted">
+                    <div className="relative size-11 sm:size-12 shrink-0 overflow-hidden rounded-xl border border-border bg-muted">
                       <Image
                         src={mainItem.image}
                         alt={mainItem.name || 'Product'}
@@ -118,13 +118,13 @@ export default function AccountDashboard() {
                       />
                     </div>
                   ) : (
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                    <div className="flex size-11 sm:size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
                       <Package className="size-5" />
                     </div>
                   )}
 
                   {/* Product Title & Order Number */}
-                  <div className="flex-1 min-w-[180px]">
+                  <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm line-clamp-1 text-foreground">
                       {mainItem?.name || 'Ordered Product'}
                       {extraCount > 0 && (

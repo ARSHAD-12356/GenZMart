@@ -33,17 +33,22 @@ export default function ProfilePage() {
       </div>
 
       {/* Avatar */}
-      <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5">
-        <Avatar className="size-16">
-          <AvatarFallback className="bg-primary/20 text-primary text-xl font-bold">
+      <div className="flex flex-col items-center justify-center text-center gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:text-left sm:justify-start">
+        {/* Row 1: Center profile pic on mobile */}
+        <Avatar className="size-20 shrink-0 shadow-sm ring-2 ring-primary/20">
+          <AvatarFallback className="bg-primary/20 text-primary text-2xl font-bold">
             {user?.name?.[0]?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <div>
-          <p className="font-semibold capitalize">{user?.name}</p>
-          <p className="text-sm text-muted-foreground capitalize">{user?.role} account</p>
+
+        {/* Row 2: Name & Role */}
+        <div className="min-w-0">
+          <p className="font-display text-lg sm:text-xl font-bold capitalize text-foreground">{user?.name}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground capitalize mt-0.5">{user?.role} account</p>
         </div>
-        <Button variant="outline" size="sm" className="ml-auto">
+
+        {/* Row 3: Change photo button */}
+        <Button variant="outline" size="sm" className="w-full sm:w-auto sm:ml-auto rounded-xl">
           Change photo
         </Button>
       </div>

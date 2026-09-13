@@ -1,4 +1,4 @@
-﻿import {
+import {
   products as mockProducts,
   categories as mockCategories,
   brands as mockBrands,
@@ -69,16 +69,93 @@ export const productService = {
 
   query: (q: ProductQuery): { items: Product[]; total: number } => {
     let items = [...mockProducts]
-    if (q.search) {
-      const s = q.search.toLowerCase()
-      items = items.filter(
-        (p) =>
-          p.name.toLowerCase().includes(s) ||
-          p.brand.toLowerCase().includes(s) ||
-          p.category.toLowerCase().includes(s) ||
-          p.tags.some((t) => t.includes(s)),
-      )
+
+    if (q.search && q.search.trim()) {
+      const rawQuery = q.search.trim().toLowerCase()
+
+      // Simple word stemming & tokenization helper
+      const getVariants = (word: string): string[] => {
+        const w = word.toLowerCase().trim()
+        if (!w) return []
+        const list = [w]
+        if (w.endsWith('ies')) list.push(w.slice(0, -3) + 'y')
+        else if (w.endsWith('es')) list.push(w.slice(0, -2))
+        else if (w.endsWith('s')) list.push(w.slice(0, -1))
+        else {
+          list.push(w + 's')
+          list.push(w + 'es')
+        }
+        return list
+      }
+
+      const tokens = rawQuery.split(/\s+/).filter(Boolean)
+
+      const scoredItems = items
+        .map((p) => {
+          const nameLower = p.name.toLowerCase()
+          const brandLower = p.brand.toLowerCase()
+          const categoryLower = p.category.toLowerCase()
+          const subcategoryLower = (p.subcategory || '').toLowerCase()
+          const shortDescLower = (p.shortDescription || '').toLowerCase()
+          const descLower = (p.description || '').toLowerCase()
+          const tagsLower = p.tags.map((t) => t.toLowerCase())
+          const skuLower = (p.sku || '').toLowerCase()
+
+          let score = 0
+
+          // Exact or prefix match on name
+          if (nameLower === rawQuery) score += 1000
+          else if (nameLower.startsWith(rawQuery)) score += 500
+          else if (nameLower.includes(rawQuery)) score += 300
+          else if (brandLower.includes(rawQuery) || categoryLower.includes(rawQuery) || subcategoryLower.includes(rawQuery)) score += 200
+
+          let matchedTokenCount = 0
+
+          for (const token of tokens) {
+            const variants = getVariants(token)
+            let tokenMatched = false
+
+            for (const v of variants) {
+              if (nameLower.includes(v)) {
+                score += 150
+                tokenMatched = true
+              }
+              if (subcategoryLower.includes(v)) {
+                score += 100
+                tokenMatched = true
+              }
+              if (categoryLower.includes(v) || brandLower.includes(v)) {
+                score += 80
+                tokenMatched = true
+              }
+              if (tagsLower.some((t) => t.includes(v))) {
+                score += 60
+                tokenMatched = true
+              }
+              if (shortDescLower.includes(v) || descLower.includes(v)) {
+                score += 30
+                tokenMatched = true
+              }
+              if (skuLower.includes(v)) {
+                score += 40
+                tokenMatched = true
+              }
+            }
+
+            if (tokenMatched) matchedTokenCount++
+          }
+
+          // Must match at least one token
+          if (matchedTokenCount === 0 && score === 0) return { product: p, score: 0 }
+          return { product: p, score }
+        })
+        .filter((item) => item.score > 0)
+
+      // Sort by relevance score
+      scoredItems.sort((a, b) => b.score - a.score)
+      items = scoredItems.map((item) => item.product)
     }
+
     if (q.category) items = items.filter((p) => p.category === q.category)
     if (q.subcategory) items = items.filter((p) => p.subcategory === q.subcategory)
     if (q.brand?.length) items = items.filter((p) => q.brand!.includes(p.brand))
@@ -95,7 +172,11 @@ export const productService = {
       case 'price-desc': items.sort((a, b) => b.price - a.price); break
       case 'rating': items.sort((a, b) => b.rating - a.rating); break
       case 'popular': items.sort((a, b) => b.reviewCount - a.reviewCount); break
-      default: items.sort((a, b) => (b.tags.includes('featured') ? 1 : 0) - (a.tags.includes('featured') ? 1 : 0))
+      default:
+        // Keep search relevance order if search query is provided
+        if (!q.search) {
+          items.sort((a, b) => (b.tags.includes('featured') ? 1 : 0) - (a.tags.includes('featured') ? 1 : 0))
+        }
     }
 
     const total = items.length

@@ -120,6 +120,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 {NAV.map(({ href, label, icon: Icon }) => (
                   <SheetClose
                     key={href}
+                    nativeButton={false}
                     render={
                       <Link
                         href={href}
@@ -140,6 +141,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               </nav>
               <div className="border-t border-border p-3 mt-auto">
                 <SheetClose
+                  nativeButton={false}
                   render={
                     <Link
                       href="/"
