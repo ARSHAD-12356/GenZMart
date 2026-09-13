@@ -51,7 +51,7 @@ export function ProductCard({ product, className }: { product: Product; classNam
             {out && <Badge variant="secondary">Sold out</Badge>}
           </div>
 
-          <div className="absolute right-3 top-3 flex flex-col gap-1.5 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="absolute right-3 top-3 flex flex-col gap-1.5 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
             <Button
               size="icon-sm"
               variant="secondary"

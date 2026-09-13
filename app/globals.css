@@ -237,3 +237,7 @@
   animation: gradient-flow 4s ease infinite;
 }
 .assistant-hi { animation: assistant-hi 2.4s ease-in-out infinite; }
+
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
